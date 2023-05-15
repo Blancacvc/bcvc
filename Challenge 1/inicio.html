@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Cifrado y desifrado de texto</title>
+</head>
+
+<div class="contenedor">
+    
+    <section class="columna-izquierda">
+        <div class="logo"></div>
+        <section class="columna-izquierda-subseccion">
+            <textarea id="inputText" class="texto-a-cifrar" placeholder="Ingrese el texto aquí"></textarea>
+            <div class="alerta-contenedor">
+                <div class="alerta-icono"></div>
+                <p class="alerta-texto">Solo letras minúsculas y sin acentos</p>
+            </div>
+            <button class="btn-cifrar" onclick="encrypt()">Encriptar</button>
+            <button class="btn-descifrar" onclick="decrypt()">Desencriptar</button></section>
+    </section>
+    <section class="columna-derecha">
+    <!-- <div class="mensaje-contenedor">  
+     <div class="mensaje-icono"></div>
+    <h2 class="mensaje-titulo">Ningún mensaje fue encontrado</h2>
+    <p class="mensaje-subtitulo">Ingresa el texto que desees encriptar o desencriptar.</p>
+    </div> -->
+    <div class="resultado-contenedor">
+        <p class="resultado-texto" ><span id="outputText"/></p>
+        <button class="btn-copiar" onclick="copiar('outputText')">Copiar</button>
+        <div id="snackbar">Texto copiado con éxito</div>
+    </div>
+    </section>
+</div>
+
+<script>
+function encryptDecrypt(inputText,mode){
+    const rules={
+        a:"ai",
+        e:"enter",
+        i:"imes",
+        o:"ober",
+        u:"ufat"
+    };
+    let outputText="";
+    const vowels="aeiou";
+    for(let i=0; i<inputText.length; i++){
+        const char = inputText[i];
+        if(mode === "encrypt"){
+            if(vowels.includes(char)){
+                outputText += rules[char];
+            }else{outputText += char;}
+        }else if(mode === "decrypt"){
+            let decrypted=false;
+            for (const [key,value] of Object.entries(rules)){
+                if (value === inputText.slice(i, i + value.length)){outputText+=key;
+                i += value.length - 1;
+                decrypted=true;
+                 break;}
+            }
+            if(!decrypted){
+                outputText+=char
+            }
+        }
+    }
+    return outputText;
+}
+function encrypt(){
+    const inputText=document.getElementById("inputText").value;
+    const outputText=encryptDecrypt(inputText, "encrypt");
+    document.getElementById("outputText").textContent=outputText;
+}
+function decrypt(){
+    const inputText=document.getElementById("inputText").value;
+    const outputText=encryptDecrypt(inputText, "decrypt");
+    document.getElementById("outputText").textContent=outputText;
+}
+function copiar(idelemento){
+  var aux = document.createElement("div");
+  aux.setAttribute("contentEditable", true);
+  aux.innerHTML = document.getElementById(idelemento).innerHTML;
+  aux.setAttribute("onfocus", "document.execCommand('selectAll',false,null)"); 
+  document.body.appendChild(aux);
+  aux.focus();
+  document.execCommand("copy");
+  document.body.removeChild(aux);
+
+  // Get the snackbar DIV
+  var x = document.getElementById("snackbar");
+
+  // Add the "show" class to DIV
+  x.className = "show";
+
+  // After 3 seconds, remove the show class from DIV
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+   </script>
+</body>
+</html>
