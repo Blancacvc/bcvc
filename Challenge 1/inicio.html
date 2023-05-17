@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,11 +24,26 @@
             <button class="btn-descifrar" onclick="decrypt()">Desencriptar</button></section>
     </section>
     <section class="columna-derecha">
-    <!-- <div class="mensaje-contenedor">  
+    
+    <script>
+     
+            var elemento= document.getElementById("inputText");
+           
+            inputText.addEventListener("input",function(){
+    var valor= textarea.value.trim();
+                var resultado = document.getElementById("outputText")
+    if (valor===""){
+        resultado.value=""
+    }
+                })
+      
+
+    </script>
+    <div class="mensaje-contenedor" style="display:none" id="mensaje">  
      <div class="mensaje-icono"></div>
     <h2 class="mensaje-titulo">Ningún mensaje fue encontrado</h2>
     <p class="mensaje-subtitulo">Ingresa el texto que desees encriptar o desencriptar.</p>
-    </div> -->
+    </div>
     <div class="resultado-contenedor">
         <p class="resultado-texto" ><span id="outputText"/></p>
         <button class="btn-copiar" onclick="copiar('outputText')">Copiar</button>
